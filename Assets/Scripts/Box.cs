@@ -5,6 +5,9 @@ using UnityEngine;
 
 public class Box : MonoBehaviour
 {
+    public float forceMagnitude = 3f;
+    public ParticleSystem explosionEffect;
+
     public GameObject boxParticle;
     
     // 旋转速度（度/秒）
@@ -15,15 +18,34 @@ public class Box : MonoBehaviour
     public float scalePeriod = 2f;
     // 当前时间
     private float timeSinceLastScaleChange = 0f;
+  
 
-    
+
+    void Explode(GameObject Player)
+    {
+        if (explosionEffect != null)
+        {
+            explosionEffect.transform.position = transform.position;
+            explosionEffect.Play();
+        }
+
+        Rigidbody2D rb = Player.GetComponent<Rigidbody2D>();
+        if (rb != null)
+        {
+            Vector2 direction = (Player.transform.position - transform.position).normalized;
+            rb.AddForce(direction * forceMagnitude, ForceMode2D.Impulse);
+            
+        }
+    }
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("Player"))
         {
             Instantiate(boxParticle, transform.position, Quaternion.Euler(new Vector3(90, 0, 0)));
+            Explode(other.gameObject);
             Destroy(gameObject);
         }
+        
     }
 
     private void Update()
