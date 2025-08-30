@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class Box : MonoBehaviour
 {
+    public int score = 3000;
     public float forceMagnitude = 3f;
     //public ParticleSystem explosionEffect;
 
@@ -41,9 +42,11 @@ public class Box : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
+            GetComponent<AudioSource>().Play();
             Instantiate(boxParticle, transform.position, Quaternion.Euler(new Vector3(90, 0, 0)));
             Explode(other.gameObject);
-            Destroy(gameObject);
+            Destroy(gameObject, 0.3f);
+            ScoreManager.Instance.ShowScore(transform.position, score);
         }
         
     }

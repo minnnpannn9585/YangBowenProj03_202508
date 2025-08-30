@@ -4,15 +4,18 @@ using UnityEngine;
 
 public class FiveSide : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    public int score = 3000;
+    public GameObject FivesideParticle;
 
-    // Update is called once per frame
-    void Update()
+    private void OnTriggerEnter2D(Collider2D other)
     {
-        
+        if (other.CompareTag("Player"))
+        {
+            GetComponent<AudioSource>().Play();
+            Instantiate(FivesideParticle, transform.position, Quaternion.Euler(new Vector3(90, 0, 0)));
+            ScoreManager.Instance.ShowScore(transform.position, score);
+
+        }
+
     }
 }
