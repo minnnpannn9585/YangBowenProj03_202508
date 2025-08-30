@@ -6,7 +6,7 @@ using UnityEngine;
 public class Box : MonoBehaviour
 {
     public float forceMagnitude = 3f;
-    public ParticleSystem explosionEffect;
+    //public ParticleSystem explosionEffect;
 
     public GameObject boxParticle;
     
@@ -23,17 +23,17 @@ public class Box : MonoBehaviour
 
     void Explode(GameObject Player)
     {
-        if (explosionEffect != null)
-        {
-            explosionEffect.transform.position = transform.position;
-            explosionEffect.Play();
-        }
+        //if (explosionEffect != null)
+        //{
+        //    explosionEffect.transform.position = transform.position;
+        //    explosionEffect.Play();
+        //}
 
         Rigidbody2D rb = Player.GetComponent<Rigidbody2D>();
         if (rb != null)
         {
             Vector2 direction = (Player.transform.position - transform.position).normalized;
-            rb.AddForce(direction * forceMagnitude, ForceMode2D.Impulse);
+            rb.AddForce((Vector2.up) * forceMagnitude, ForceMode2D.Impulse);
             
         }
     }
